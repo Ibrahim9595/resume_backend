@@ -3,6 +3,7 @@ import { authMiddleware, createController } from "../../utils";
 import { readAllResumeHandler, readAllResumeSchema } from "./all";
 import { createResume, createResumeHandler } from "./create";
 import { customSectionRouter } from "./custom-section";
+import { deleteResumeHandler, deleteResumeSchema } from "./delete";
 import { readResumeHandler, readResumeSchema } from "./read";
 import { resumeStepHandler, resumeStepsSchema } from "./steps";
 import { updateResume, updateResumeHandler } from "./update";
@@ -28,6 +29,15 @@ resumeRouter.get(
   })
 );
 
+resumeRouter.get(
+  "/:resumeId",
+  matchUserResumeMiddleware,
+  createController({
+    argsParser: readResumeSchema,
+    handler: readResumeHandler,
+  })
+);
+
 resumeRouter.put(
   "/:resumeId",
   matchUserResumeMiddleware,
@@ -37,12 +47,12 @@ resumeRouter.put(
   })
 );
 
-resumeRouter.get(
+resumeRouter.delete(
   "/:resumeId",
   matchUserResumeMiddleware,
   createController({
-    argsParser: readResumeSchema,
-    handler: readResumeHandler,
+    argsParser: deleteResumeSchema,
+    handler: deleteResumeHandler,
   })
 );
 
