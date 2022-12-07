@@ -274,3 +274,5 @@ curl --location --request PUT 'https://resume-backend-bc5j.onrender.com/resume/1
     }
 ]'
 ```
+
+[Public Postman workspace](https://www.postman.com/ibrahim9595/workspace/resumebuilder/request/647798-d28aeb6f-c5ca-43b6-97a1-c5faac3ccd1f?ctx=code)
