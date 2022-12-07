@@ -1,16 +1,17 @@
 import { RequestHandler } from "express";
 import createHttpError from "http-errors";
-import { SafeParseSuccess, z, ZodRawShape } from "zod";
+import { SafeParseSuccess, z } from "zod";
 
 type ControllerArgs = {
   argsParser: z.ZodObject<any> | z.ZodEffects<any>;
   handler: (args: any) => Promise<any>;
+  successCode?: number;
 };
 
 export const createController: (
   args: ControllerArgs
 ) => RequestHandler<{}, any, any, any, Record<string, any>> =
-  ({ argsParser, handler }) =>
+  ({ argsParser, handler, successCode = 200 }) =>
   async (req, res, next) => {
     const parsedData = argsParser.safeParse(req);
     if (!parsedData.success)
@@ -18,7 +19,10 @@ export const createController: (
 
     try {
       const result = await handler((parsedData as SafeParseSuccess<any>).data);
-      res.send(result);
+      res.status(successCode).send({
+        status: successCode,
+        data: result,
+      });
     } catch (error: any) {
       next(
         error.statusCode

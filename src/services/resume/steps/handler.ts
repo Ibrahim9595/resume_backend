@@ -21,5 +21,9 @@ export const resumeStepHandler = async ({
     stepsOrder,
   });
 
-  return prisma.$transaction(transactions.map((fn) => fn()));
+  return prisma.$transaction(transactions.map((fn) => fn())).then((res) => ({
+    success: true,
+    message: "DATA_UPDATED_SUCCESSFULLY",
+    meta: res,
+  }));
 };
