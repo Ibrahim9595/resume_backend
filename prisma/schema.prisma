@@ -1,0 +1,162 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum SkillLevel {
+  expert
+  experienced
+  skillful
+  beginner
+  novice
+}
+
+enum LanguageLevel {
+  a1
+  a2
+  b1
+  b2
+  c1
+  c2
+}
+
+enum StepsOrder {
+  education
+  workExperience
+  skill
+  language
+  socialLink
+  reference
+  customSection
+}
+
+model User {
+  id           Int      @id @default(autoincrement())
+  email        String   @unique
+  name         String?
+  passwordHash String
+  Resume       Resume[]
+}
+
+model Template {
+  id     Int      @id @default(autoincrement())
+  name   String
+  url    String
+  Resume Resume[]
+}
+
+model ResumeStepsOrder {
+  id    StepsOrder @id
+  order Int
+}
+
+model Resume {
+  id             Int              @id @default(autoincrement())
+  userId         Int
+  user           User             @relation(fields: [userId], references: [id])
+  templateId     Int
+  template       Template         @relation(fields: [templateId], references: [id])
+  step           Int              @default(1)
+  firstname      String
+  lastname       String
+  email          String
+  phone          String
+  jobTitle       String
+  description    String?
+  avatarUrl      String?
+  dateOfBirth    DateTime?        @db.Date
+  address        String?
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  workExperience WorkExperience[]
+  education      Education[]
+  skills         Skill[]
+  languages      Language[]
+  socialLinks    SocialLink[]
+  references     Reference[]
+  customSections CustomSection[]
+}
+
+model Skill {
+  id         String     @id @default(uuid())
+  resumeId   Int
+  resume     Resume     @relation(fields: [resumeId], references: [id])
+  name       String
+  position   Int
+  experience SkillLevel
+}
+
+model Language {
+  id         String        @id @default(uuid())
+  resumeId   Int
+  resume     Resume        @relation(fields: [resumeId], references: [id])
+  name       String
+  position   Int
+  experience LanguageLevel
+}
+
+model SocialLink {
+  id       String @id @default(uuid())
+  resumeId Int
+  resume   Resume @relation(fields: [resumeId], references: [id])
+  label    String
+  url      String
+}
+
+model Reference {
+  id       String @id @default(uuid())
+  resumeId Int
+  resume   Resume @relation(fields: [resumeId], references: [id])
+  fullname String
+  company  String
+  phone    String
+  email    String
+}
+
+model WorkExperience {
+  id          String    @id @default(uuid())
+  resumeId    Int
+  resume      Resume    @relation(fields: [resumeId], references: [id])
+  title       String
+  employer    String
+  startDate   DateTime  @db.Date
+  endDate     DateTime? @db.Date
+  current     Boolean   @default(false)
+  description String?
+}
+
+model Education {
+  id          String    @id @default(uuid())
+  resumeId    Int
+  resume      Resume    @relation(fields: [resumeId], references: [id])
+  school      String
+  degree      String
+  startDate   DateTime  @db.Date
+  endDate     DateTime? @db.Date
+  description String?
+}
+
+model CustomSection {
+  id                String              @id @default(uuid())
+  resumeId          Int
+  resume            Resume              @relation(fields: [resumeId], references: [id])
+  title             String
+  CustomSectionItem CustomSectionItem[]
+}
+
+model CustomSectionItem {
+  id              String        @id @default(uuid())
+  customSectionId String
+  customSection   CustomSection @relation(fields: [customSectionId], references: [id])
+  title           String
+  startDate       DateTime?     @db.Date
+  endDate         DateTime?     @db.Date
+  description     String?
+}
