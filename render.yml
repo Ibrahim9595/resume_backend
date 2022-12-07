@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: resume_backend
+    env: node
+    region: frankfurt
+    plan: free
+    branch: master
+    healthCheckPath: /health
+    envVars:
+      - key: ACCESS_TOKEN_SECRET
+        value: "eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJVc2VybmFtZSI6IkphdmFJblVzZSIsImV4cCI6MTY3MDI3ODk1MCwiaWF0IjoxNjcwMjc4OTUwfQ"
+
+      - key: DB_URL
+        fromDatabase:
+          name: resume_builder
+          property: connectionString
+
+databases:
+  - name: resume_builder
+    plan: free
+    region: frankfurt
+    postgresMajorVersion: 14
