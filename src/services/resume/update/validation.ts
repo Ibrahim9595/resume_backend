@@ -1,6 +1,5 @@
 import { z } from "zod";
 import { dateSchema, idSchema } from "../../../utils";
-import { createResume } from "../create";
 import { paramsSchema, userSchema } from "../utils";
 
 export const updateResume = z
@@ -21,11 +20,11 @@ export const updateResume = z
       address: z.string().optional(),
     }),
     user: userSchema,
-    paramsSchema,
+    params: z.object({ resumeId: idSchema }),
   })
-  .transform(({ paramsSchema, ...rest }) => ({
+  .transform(({ params, ...rest }) => ({
     ...rest,
-    resumeId: paramsSchema.resumeId,
+    resumeId: params.resumeId,
   }));
 
 export type UpdateResumeSchema = z.infer<typeof updateResume>;
