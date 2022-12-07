@@ -6,6 +6,8 @@ services:
     plan: free
     branch: master
     healthCheckPath: /health
+    buildCommand: npm run build
+    startCommand: npm start
     envVars:
       - key: ACCESS_TOKEN_SECRET
         value: "eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJVc2VybmFtZSI6IkphdmFJblVzZSIsImV4cCI6MTY3MDI3ODk1MCwiaWF0IjoxNjcwMjc4OTUwfQ"
