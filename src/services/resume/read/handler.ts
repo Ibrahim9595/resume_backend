@@ -9,7 +9,7 @@ export const readResumeHandler = async ({ resumeId }: ReadResumeSchema) => {
       languages: true,
       customSections: {
         include: {
-          CustomSectionItem: true,
+          items: true,
         },
       },
       references: true,

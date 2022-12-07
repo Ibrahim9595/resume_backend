@@ -49,7 +49,7 @@ model Template {
   id     Int      @id @default(autoincrement())
   name   String
   url    String
-  Resume Resume[]
+  resume Resume[]
 }
 
 model ResumeStepsOrder {
@@ -87,7 +87,7 @@ model Resume {
 model Skill {
   id         String     @id @default(uuid())
   resumeId   Int
-  resume     Resume     @relation(fields: [resumeId], references: [id])
+  resume     Resume     @relation(fields: [resumeId], references: [id], onDelete: Cascade)
   name       String
   position   Int
   experience SkillLevel
@@ -96,7 +96,7 @@ model Skill {
 model Language {
   id         String        @id @default(uuid())
   resumeId   Int
-  resume     Resume        @relation(fields: [resumeId], references: [id])
+  resume     Resume        @relation(fields: [resumeId], references: [id], onDelete: Cascade)
   name       String
   position   Int
   experience LanguageLevel
@@ -105,7 +105,7 @@ model Language {
 model SocialLink {
   id       String @id @default(uuid())
   resumeId Int
-  resume   Resume @relation(fields: [resumeId], references: [id])
+  resume   Resume @relation(fields: [resumeId], references: [id], onDelete: Cascade)
   label    String
   url      String
 }
@@ -113,7 +113,7 @@ model SocialLink {
 model Reference {
   id       String @id @default(uuid())
   resumeId Int
-  resume   Resume @relation(fields: [resumeId], references: [id])
+  resume   Resume @relation(fields: [resumeId], references: [id], onDelete: Cascade)
   fullname String
   company  String
   phone    String
@@ -123,7 +123,7 @@ model Reference {
 model WorkExperience {
   id          String    @id @default(uuid())
   resumeId    Int
-  resume      Resume    @relation(fields: [resumeId], references: [id])
+  resume      Resume    @relation(fields: [resumeId], references: [id], onDelete: Cascade)
   title       String
   employer    String
   startDate   DateTime  @db.Date
@@ -135,7 +135,7 @@ model WorkExperience {
 model Education {
   id          String    @id @default(uuid())
   resumeId    Int
-  resume      Resume    @relation(fields: [resumeId], references: [id])
+  resume      Resume    @relation(fields: [resumeId], references: [id], onDelete: Cascade)
   school      String
   degree      String
   startDate   DateTime  @db.Date
@@ -144,17 +144,17 @@ model Education {
 }
 
 model CustomSection {
-  id                String              @id @default(uuid())
-  resumeId          Int
-  resume            Resume              @relation(fields: [resumeId], references: [id])
-  title             String
-  CustomSectionItem CustomSectionItem[]
+  id       String              @id @default(uuid())
+  resumeId Int
+  resume   Resume              @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+  title    String
+  items    CustomSectionItem[]
 }
 
 model CustomSectionItem {
   id              String        @id @default(uuid())
   customSectionId String
-  customSection   CustomSection @relation(fields: [customSectionId], references: [id])
+  customSection   CustomSection @relation(fields: [customSectionId], references: [id], onDelete: Cascade)
   title           String
   startDate       DateTime?     @db.Date
   endDate         DateTime?     @db.Date
