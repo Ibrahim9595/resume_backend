@@ -23,7 +23,7 @@ export const authMiddleware: RequestHandler = async (req, res, next) => {
   const prisma = getPrismaClient();
   await validateToken(parsedRequest.data, ACCESS_TOKEN_SECRET)
     // Get the userId from the token
-    .then((tokenUser: any) => tokenUser.id)
+    .then((tokenUser: any) => tokenUser.payload.id)
     // Check if there is a real user with this id
     .then((id) => prisma.user.findFirstOrThrow({ where: { id } }))
     // Assign the user to the request

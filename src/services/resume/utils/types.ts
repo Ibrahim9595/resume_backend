@@ -3,7 +3,7 @@ import { idSchema } from "../../../utils";
 
 export const userSchema = z.object({
   id: z.number(),
-  name: z.string().optional(),
+  name: z.string().optional().nullable(),
   email: z.string().email(),
 });
 export type UserSchema = z.infer<typeof userSchema>;
