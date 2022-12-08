@@ -1,6 +1,5 @@
 # Project Summary
 
-
 ## Project stack:
 1. Typescript
 2. Expressjs
@@ -34,10 +33,20 @@
 - error-handler-middleware: A centralized place to handle any error.
 
 
+# Run Locally
+```zsh
+docker-compose up -d
+npm i
+npm run build
+npm start
+```
+
 # TODOs
 1. Write unit tests for all business logic.
 2. Add the feature to support dynamic ordering between sections.
 3. Write a wrapper around prisma and Zod to make any loosen the coupling to them.
+4. Add endpoints to be used for autocomplete (ex: skills, languages, ...etc)
+
 # Test Curl scripts
 
 ## Login
